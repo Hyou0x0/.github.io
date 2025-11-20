@@ -6,65 +6,167 @@
   <title>ふたり用 ToDo リスト</title>
   <style>
     :root { color-scheme: dark light; }
+
     body{
-      margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:#111; color:#eee; min-height:100vh; display:flex; flex-direction:column;
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#111;
+      color:#eee;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
     header{
-      padding:.8rem 1rem; background:#222; display:flex; align-items:center; justify-content:space-between;
+      padding:.8rem 1rem;
+      background:#222;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       box-shadow:0 2px 4px rgba(0,0,0,.4);
     }
     header h1{ font-size:1.1rem; margin:0; }
+
     main{
-      flex:1; max-width:640px; width:100%; margin:0 auto; padding:1rem; box-sizing:border-box;
+      flex:1;
+      max-width:640px;
+      width:100%;
+      margin:0 auto;
+      padding:1rem;
+      box-sizing:border-box;
     }
-    #status{ font-size:.8rem; opacity:.8; margin:.2rem 0 .8rem; }
+    #status{
+      font-size:.8rem;
+      opacity:.8;
+      margin:.2rem 0 .8rem;
+    }
 
     /* 名前入力ボックス */
     .name-box{
-      display:flex; gap:.5rem; align-items:center;
-      background:#181818; border:1px solid #262626; border-radius:.8rem;
-      padding:.6rem .7rem; margin-bottom:.8rem;
+      display:flex;
+      gap:.5rem;
+      align-items:center;
+      background:#181818;
+      border:1px solid #262626;
+      border-radius:.8rem;
+      padding:.6rem .7rem;
+      margin-bottom:.8rem;
     }
-    .name-box label{ font-size:.85rem; opacity:.85; white-space:nowrap; }
+    .name-box label{
+      font-size:.85rem;
+      opacity:.85;
+      white-space:nowrap;
+    }
     .name-box input{
-      flex:1; padding:.5rem .7rem; border-radius:999px; border:1px solid #444;
-      background:#111; color:#eee; font-size:.9rem;
+      flex:1;
+      padding:.5rem .7rem;
+      border-radius:999px;
+      border:1px solid #444;
+      background:#111;
+      color:#eee;
+      font-size:.9rem;
     }
     .name-box button{
-      padding:.5rem .8rem; border-radius:999px; border:none; background:#10b981; color:#fff;
-      font-size:.85rem; font-weight:700; cursor:pointer; white-space:nowrap;
+      padding:.5rem .8rem;
+      border-radius:999px;
+      border:none;
+      background:#10b981;
+      color:#fff;
+      font-size:.85rem;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
     }
     .name-hint{
-      font-size:.75rem; opacity:.7; margin:-.3rem 0 .7rem .2rem;
+      font-size:.75rem;
+      opacity:.7;
+      margin:-.3rem 0 .7rem .2rem;
     }
 
-    form{ display:flex; gap:.5rem; margin-bottom:1rem; }
+    form{
+      display:flex;
+      gap:.5rem;
+      margin-bottom:1rem;
+    }
     input[type="text"]{
-      flex:1; padding:.6rem .8rem; border-radius:999px; border:1px solid #444;
-      background:#181818; color:#eee; font-size:.95rem; box-sizing:border-box;
+      flex:1;
+      padding:.6rem .8rem;
+      border-radius:999px;
+      border:1px solid #444;
+      background:#181818;
+      color:#eee;
+      font-size:.95rem;
+      box-sizing:border-box;
     }
     input[type="text"]::placeholder{ color:#777; }
+
     button{
-      padding:.6rem .9rem; border-radius:999px; border:none; background:#3b82f6; color:#fff;
-      font-size:.9rem; font-weight:600; cursor:pointer; white-space:nowrap;
+      padding:.6rem .9rem;
+      border-radius:999px;
+      border:none;
+      background:#3b82f6;
+      color:#fff;
+      font-size:.9rem;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
     }
-    button:active{ transform:translateY(1px); filter:brightness(.9); }
-    ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.4rem; }
+    button:active{
+      transform:translateY(1px);
+      filter:brightness(.9);
+    }
+
+    ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:.4rem;
+    }
+
     .todo-item{
-      display:flex; align-items:center; gap:.5rem; padding:.45rem .6rem; border-radius:.6rem;
-      background:#181818; border:1px solid #262626;
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.45rem .6rem;
+      border-radius:.6rem;
+      background:#181818;
+      border:1px solid #262626;
+      touch-action: pan-y; /* 縦スクロールと即ドラッグの共存 */
     }
     .todo-item .text{
-      flex:1; font-size:.9rem; word-break:break-all; display:flex; align-items:center; gap:.5rem;
+      flex:1;
+      font-size:.9rem;
+      word-break:break-all;
+      display:flex;
+      align-items:center;
+      gap:.5rem;
     }
-    .todo-item .text.done{ text-decoration:line-through; opacity:.6; }
+    .todo-item .text.done{
+      text-decoration:line-through;
+      opacity:.6;
+    }
     .author{
-      font-size:.72rem; opacity:.75; padding:.15rem .4rem; border-radius:999px;
-      background:#0b0b0b; border:1px solid #333; white-space:nowrap;
+      font-size:.72rem;
+      opacity:.75;
+      padding:.15rem .4rem;
+      border-radius:999px;
+      background:#0b0b0b;
+      border:1px solid #333;
+      white-space:nowrap;
     }
-    .todo-item button{ padding:.3rem .6rem; font-size:.75rem; background:#dc2626; }
-    .todo-item input[type="checkbox"]{ width:1rem; height:1rem; }
+
+    .todo-item button{
+      padding:.3rem .6rem;
+      font-size:.75rem;
+      background:#dc2626;
+    }
+    .todo-item input[type="checkbox"]{
+      width:1rem; height:1rem;
+    }
+
+    /* Sortableの見た目 */
+    .todo-item.sortable-ghost{ opacity:.4; }
 
     @media (min-width:768px){
       header h1{ font-size:1.2rem; }
@@ -80,7 +182,7 @@
   <main>
     <p id="status">Firebase に接続しています...</p>
 
-    <!-- 名前入力（端末ごとに1回だけ） -->
+    <!-- 名前入力（端末ごとに一度だけ） -->
     <div id="nameBox" class="name-box" style="display:none;">
       <label>あなたの名前</label>
       <input id="nameInput" type="text" placeholder="まさぴ / ゆなぴ" />
@@ -91,14 +193,18 @@
     </p>
 
     <form id="todo-form">
-      <input id="todo-input" type="text" placeholder="やることを入力して Enter / 追加" autocomplete="off" required />
+      <input id="todo-input" type="text" placeholder="やることを入力して Enter / 追加"
+             autocomplete="off" required />
       <button type="submit">追加</button>
     </form>
 
     <ul id="todo-list"></ul>
   </main>
 
-  <!-- Firebase JS SDK (CDN, modular) -->
+  <!-- SortableJS（即ドラッグOKな並び替え） -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+
+  <!-- Firebase / App -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
     import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js';
@@ -106,11 +212,10 @@
       getFirestore, collection, addDoc, serverTimestamp,
       query, orderBy, onSnapshot,
       doc, updateDoc, deleteDoc,
-      setDoc, getDoc
+      setDoc, getDoc, writeBatch
     } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js';
-    // modular構成は公式推奨どおり 
 
-    // あなたの Firebase 設定
+    // Firebase 設定（todo-f9789）
     const firebaseConfig = {
       apiKey: "AIzaSyCy6HHiGMsaXMCVkftoIlZIyJdp3YM7DsI",
       authDomain: "todo-f9789.firebaseapp.com",
@@ -139,6 +244,7 @@
     const NAME_KEY = "todoDisplayName";
     let displayName = localStorage.getItem(NAME_KEY) || "";
     let currentUser = null;
+    let sortable = null;
 
     function lockTodoUI(lock){
       input.disabled = lock;
@@ -146,11 +252,10 @@
     }
 
     async function ensureDisplayName(uid){
-      // 1) localStorage があればそれを採用
+      // localStorageに名前があればそれを使う
       if (displayName && displayName.trim()){
         statusEl.textContent = `接続中: ${displayName}`;
         lockTodoUI(false);
-        // users/{uid} にも保存（任意・保険）
         await setDoc(doc(db, "users", uid), {
           name: displayName.trim(),
           updatedAt: serverTimestamp()
@@ -158,7 +263,7 @@
         return;
       }
 
-      // 2) Firestore の users/{uid} に名前があれば拾う
+      // Firestore users/{uid} に名前があれば拾う
       try{
         const uref = doc(db, "users", uid);
         const usnap = await getDoc(uref);
@@ -173,7 +278,7 @@
         console.warn("users read failed:", e);
       }
 
-      // 3) なければ入力を出す
+      // 無ければ入力させる
       nameBox.style.display = "flex";
       nameHint.style.display = "block";
       lockTodoUI(true);
@@ -212,45 +317,77 @@
       }
 
       currentUser = user;
-
       await ensureDisplayName(user.uid);
 
-      // todos リアルタイム購読
+      // todos リアルタイム購読（createdAtで取得 → order優先で表示）
       const q = query(todosCol, orderBy('createdAt'));
-      onSnapshot(q, (snapshot) => {
-        list.innerHTML = '';
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
+      onSnapshot(q, async (snapshot) => {
 
-          const li = document.createElement('li');
-          li.className = 'todo-item';
+        // ① 配列化
+        const todos = snapshot.docs.map((d, i) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            text: data.text || "",
+            done: !!data.done,
+            authorName: data.authorName || "unknown",
+            order: (typeof data.order === "number") ? data.order : null,
+            _fallbackIndex: i
+          };
+        });
 
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.checked = !!data.done;
-
-          const textWrap = document.createElement('div');
-          textWrap.className = 'text' + (data.done ? ' done' : '');
-          textWrap.textContent = data.text || '';
-
-          const author = document.createElement('span');
-          author.className = 'author';
-          author.textContent = data.authorName ? data.authorName : 'unknown';
-
-          const delBtn = document.createElement('button');
-          delBtn.textContent = '削除';
-
-          checkbox.addEventListener('change', () => {
-            updateDoc(doc(todosCol, docSnap.id), { done: checkbox.checked });
+        // ② orderが無い旧データがあれば初回だけ採番
+        const needBackfill = todos.some(t => t.order === null);
+        if (needBackfill) {
+          const batch = writeBatch(db);
+          todos.forEach((t, idx) => {
+            if (t.order === null) {
+              batch.update(doc(todosCol, t.id), { order: idx });
+              t.order = idx;
+            }
           });
+          try { await batch.commit(); } catch(e) { console.warn(e); }
+        }
 
-          delBtn.addEventListener('click', () => {
-            deleteDoc(doc(todosCol, docSnap.id));
+        // ③ order優先でソート
+        todos.sort((a, b) => {
+          const ao = (a.order ?? a._fallbackIndex);
+          const bo = (b.order ?? b._fallbackIndex);
+          return ao - bo;
+        });
+
+        // ④ 描画
+        list.innerHTML = "";
+        todos.forEach((t) => {
+          const li = document.createElement("li");
+          li.className = "todo-item";
+          li.dataset.id = t.id;
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = t.done;
+
+          const textWrap = document.createElement("div");
+          textWrap.className = "text" + (t.done ? " done" : "");
+          textWrap.textContent = t.text;
+
+          const author = document.createElement("span");
+          author.className = "author";
+          author.textContent = t.authorName;
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "削除";
+
+          checkbox.addEventListener("change", () => {
+            updateDoc(doc(todosCol, t.id), { done: checkbox.checked });
+          });
+          delBtn.addEventListener("click", () => {
+            deleteDoc(doc(todosCol, t.id));
           });
 
           li.appendChild(checkbox);
 
-          const textRow = document.createElement('div');
+          const textRow = document.createElement("div");
           textRow.style.display = "flex";
           textRow.style.alignItems = "center";
           textRow.style.gap = ".5rem";
@@ -262,22 +399,46 @@
           li.appendChild(delBtn);
           list.appendChild(li);
         });
+
+        // ⑤ Sortable再初期化（即ドラッグ）
+        if (sortable) sortable.destroy();
+        sortable = new Sortable(list, {
+          animation: 150,
+          delay: 0,                 // 長押し無し
+          delayOnTouchOnly: false,
+          touchStartThreshold: 3,   // ちょい誤爆防止（長押しではない）
+          ghostClass: "sortable-ghost",
+          onEnd: async () => {
+            const ids = Array.from(list.children).map(li => li.dataset.id);
+            const batch = writeBatch(db);
+            ids.forEach((id, idx) => {
+              batch.update(doc(todosCol, id), { order: idx });
+            });
+            try { await batch.commit(); }
+            catch(e){
+              console.error(e);
+              alert("並び替え保存に失敗: " + e.message);
+            }
+          }
+        });
       });
     });
 
-    // 追加
+    // 追加（末尾 order で追加）
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = input.value.trim();
       if (!text || !currentUser) return;
 
       try {
+        const nextOrder = list.children.length;
         await addDoc(todosCol, {
           text,
           done: false,
           createdAt: serverTimestamp(),
           authorUid: currentUser.uid,
-          authorName: displayName || "unknown"
+          authorName: displayName || "unknown",
+          order: nextOrder
         });
         input.value = '';
         input.focus();
