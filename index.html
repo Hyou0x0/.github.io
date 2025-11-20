@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>YM ToDo</title>
+  <title>ふたり用 ToDo リスト</title>
 
   <!-- PWA manifest（ホーム画面追加でアプリ風） -->
   <link rel="manifest" href="/manifest.webmanifest">
@@ -152,6 +152,7 @@
       width:100%;
       box-sizing:border-box;
       touch-action: pan-y;
+      will-change: transform; /* FLIPで滑らかに */
     }
     .todo-item .text{
       flex:1;
@@ -195,7 +196,7 @@
 </head>
 <body>
   <header>
-    <h1>YM ToDo</h1>
+    <h1>ふたり用 ToDo リスト</h1>
   </header>
 
   <main>
@@ -273,6 +274,36 @@
       form.querySelector('button[type="submit"]').disabled = lock;
     }
 
+    // === FLIPアニメーション用 ===
+    function capturePositions(){
+      const map = new Map();
+      Array.from(list.children).forEach(li=>{
+        if (!li.dataset.id) return;
+        map.set(li.dataset.id, li.getBoundingClientRect());
+      });
+      return map;
+    }
+    function animateFlip(prevMap){
+      Array.from(list.children).forEach(li=>{
+        const id = li.dataset.id;
+        const oldRect = prevMap.get(id);
+        if (!oldRect) return;
+
+        const newRect = li.getBoundingClientRect();
+        const dx = oldRect.left - newRect.left;
+        const dy = oldRect.top - newRect.top;
+        if (!dx && !dy) return;
+
+        li.style.transition = "none";
+        li.style.transform = `translate(${dx}px, ${dy}px)`;
+
+        requestAnimationFrame(() => {
+          li.style.transition = "transform 180ms ease";
+          li.style.transform = "";
+        });
+      });
+    }
+
     function pickNameUI(uid){
       nameBox.style.display = "flex";
       nameHint.style.display = "block";
@@ -309,7 +340,7 @@
         return;
       }
 
-      // Firestore users/{uid} に名前があれば拾う（同じ端末復帰用）
+      // Firestore users/{uid} に名前があれば拾う
       try{
         const uref = doc(db, "users", uid);
         const usnap = await getDoc(uref);
@@ -324,7 +355,6 @@
         console.warn("users read failed:", e);
       }
 
-      // 無ければ選択UI
       pickNameUI(uid);
     }
 
@@ -387,7 +417,7 @@
           try { await batch.commit(); } catch(e) { console.warn(e); }
         }
 
-        // ③ まず「未完了」「完了」で分け、各グループ内は order でソート
+        // ③ 未完了 / 完了で分け、各グループ内は order でソート
         const active = todos.filter(t => !t.done).sort((a,b)=>{
           const ao = (a.order ?? a._fallbackIndex);
           const bo = (b.order ?? b._fallbackIndex);
@@ -400,6 +430,9 @@
         });
 
         latestTodos = [...active, ...completed];
+
+        // ★描画前の位置を記録
+        const prevPos = capturePositions();
 
         // ④ 描画（未完了→完了の順）
         list.innerHTML = "";
@@ -456,6 +489,9 @@
           li.appendChild(delBtn);
           list.appendChild(li);
         });
+
+        // ★描画後にFLIPアニメで滑らかに移動
+        requestAnimationFrame(() => animateFlip(prevPos));
 
         // ⑤ Sortable再初期化（即ドラッグ）
         if (sortable) sortable.destroy();
